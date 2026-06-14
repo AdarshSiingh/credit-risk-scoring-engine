@@ -5,22 +5,24 @@ import matplotlib.pyplot as plt
 import joblib
 import shap
 import warnings
+import os
 
 warnings.filterwarnings('ignore')
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 st.set_page_config(page_title="Credit Risk Scorer", layout="wide")
 
 
 @st.cache_resource
 def load_model():
-    model = joblib.load('../models/lgbm_model.pkl')
+    model = joblib.load(os.path.join(BASE_DIR, 'models', 'xgb_model.pkl'))
     return model
 
 @st.cache_data
 def load_data():
-    X_val = pd.read_csv('../outputs/X_val.csv')
-    y_val = pd.read_csv('../outputs/y_val.csv').squeeze()
+    X_val = pd.read_csv(os.path.join(BASE_DIR, 'outputs', 'X_val.csv'))
+    y_val = pd.read_csv(os.path.join(BASE_DIR, 'outputs', 'y_val.csv')).squeeze()
     X_val.columns = X_val.columns.str.replace('[^A-Za-z0-9_]', '_', regex=True)
     return X_val, y_val
 
@@ -145,19 +147,19 @@ with tab2:
     st.title("Exploratory Data Analysis")
 
     st.subheader("Class Imbalance")
-    st.image('../outputs/class_imbalance.png')
+    st.image(os.path.join(BASE_DIR, 'outputs', 'class_imbalance.png'))
 
     st.subheader("Age Distribution")
-    st.image('../outputs/age_distribution.png')
+    st.image(os.path.join(BASE_DIR, 'outputs', 'age_distribution.png'))
 
     st.subheader("Income Distribution")
-    st.image('../outputs/income_distribution.png')
+    st.image(os.path.join(BASE_DIR, 'outputs', 'income_distribution.png'))
 
     st.subheader("Default Rate by Employment Type")
-    st.image('../outputs/default_by_employment.png')
+    st.image(os.path.join(BASE_DIR, 'outputs', 'default_by_employment.png'))
 
     st.subheader("Default Rate by Education Level")
-    st.image('../outputs/default_by_education.png')
+    st.image(os.path.join(BASE_DIR, 'outputs', 'default_by_education.png'))
 
 
 
@@ -167,24 +169,24 @@ with tab3:
     st.title("Model Performance Comparison")
 
     results = {
-        'Model':     ['Logistic Regression', 'Random Forest', 'XGBoost', 'LightGBM'],
-        'AUC-ROC':   [0.6119, 0.7247, 0.7458, 0.7593],
-        'F1 Score':  [0.1876, 0.0032, 0.2738, 0.2714],
-        'Precision': [0.1148, 0.8000, 0.1772, 0.1702],
-        'Recall':    [0.5132, 0.0016, 0.6020, 0.6701]
+    'Model':     ['Logistic Regression', 'Decision Tree', 'Random Forest', 'XGBoost'],
+    'AUC-ROC':   [0.6119, 0.7153, 0.7247, 0.7458],
+    'F1 Score':  [0.1876, 0.2418, 0.0032, 0.2738],
+    'Precision': [0.1148, 0.1489, 0.8000, 0.1772],
+    'Recall':    [0.5132, 0.6425, 0.0016, 0.6020]
     }
 
     results_df = pd.DataFrame(results)
     st.dataframe(results_df, use_container_width=True)
 
     st.subheader("Model Comparison Chart")
-    st.image('../outputs/model_comparison.png')
+    st.image(os.path.join(BASE_DIR, 'outputs', 'model_comparison.png'))
 
     st.subheader("ROC Curves")
-    st.image('../outputs/roc_curves.png')
+    st.image(os.path.join(BASE_DIR, 'outputs', 'roc_curves.png'))
 
-    st.subheader("Confusion Matrix — LightGBM")
-    st.image('../outputs/confusion_matrix.png')
+    st.subheader("Confusion Matrix — XGBoost")
+    st.image(os.path.join(BASE_DIR, 'outputs', 'confusion_matrix.png'))
 
 
 
@@ -192,5 +194,5 @@ with tab3:
 
 with tab4:
     st.title("Feature Correlation with Default")
-    st.image('../outputs/top_correlations.png')
+    st.image(os.path.join(BASE_DIR, 'outputs', 'top_correlations.png'))
    
