@@ -4,3 +4,5 @@ __pycache__/
 .DS_Store
 *.pyc
 outputs/*.csv
+!outputs/X_val_sample.csv
+!outputs/y_val_sample.csv

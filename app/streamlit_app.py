@@ -21,8 +21,8 @@ def load_model():
 
 @st.cache_data
 def load_data():
-    X_val = pd.read_csv(os.path.join(BASE_DIR, 'outputs', 'X_val.csv'))
-    y_val = pd.read_csv(os.path.join(BASE_DIR, 'outputs', 'y_val.csv')).squeeze()
+    X_val = pd.read_csv(os.path.join(BASE_DIR, 'outputs', 'X_val_sample.csv'))
+    y_val = pd.read_csv(os.path.join(BASE_DIR, 'outputs', 'y_val_sample.csv')).squeeze()
     X_val.columns = X_val.columns.str.replace('[^A-Za-z0-9_]', '_', regex=True)
     return X_val, y_val
 
