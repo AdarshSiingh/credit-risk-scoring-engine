@@ -93,7 +93,7 @@ with tab1:
                     sample_row['ANNUITY_TO_INCOME'] = annuity_to_income
 
                 prob     = model.predict_proba(sample_row)[0][1]
-                prob_pct = round(prob * 100, 1)
+                prob_pct = round(float(prob) * 100, 1)
 
                 st.subheader("Prediction Result")
 
